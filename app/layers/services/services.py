@@ -1,16 +1,23 @@
 # capa de servicio/lógica de negocio
-
+# Comentario: Lo que hice aca fue importar funciones que se encontraban en la utilidad translator y ademas agregar card.py
 from ..persistence import repositories
 from ..utilities import translator
+from ..utilities.translator import fromRequestIntoCard
+from ..utilities.translator import fromTemplateIntoCard
+from ..utilities.translator import fromRepositoryIntoCard
 from django.contrib.auth import get_user
+from ..utilities import card
+from .services import transport 
 
 def getAllImages(input=None):
     # obtiene un listado de datos "crudos" desde la API, usando a transport.py.
-    json_collection = []
+    json_collection = getAllImages(input) #Llama a la función getallimages que se encuentra en transport.py
 
     # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
     images = []
-
+    for raw_objects in json_collection:
+        card = fromRequestIntoCard(raw_objects)
+        images.append(card)
     return images
 
 # añadir favoritos (usado desde el template 'home.html')
