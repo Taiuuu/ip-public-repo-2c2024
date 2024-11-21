@@ -32,7 +32,7 @@
         </form>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% if images|length == 0 %}
         <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
         {% else %} {% for img in images %}
@@ -48,14 +48,17 @@
                             <h3 class="card-title">{{ img.name }}</h3>
                             <p class="card-text">
                                 <strong>
-                                            {% if true == 'Alive' %} 🟢 {{ img.status }} 
-                                            {% elif true == 'Dead' %} 🔴 {{ img.status }} 
-                                            {% else %} 🟠 {{ img.status }} 
-                                            {% endif %}
-                                        </strong>
+                                        {% if img.status == 'Alive' %} 🟢 Vivo 
+                                        {% elif img.status == 'Dead' %} 🔴 Muerto
+                                        {% else %} 🟠 Desconocido 
+                                        {% endif %}
+                                </strong>
                             </p>
-                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small></p>
-                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
+                            <p class="card-text">
+                                <small>class="text-body-secondary">Última ubicación: {{ img.last_location }}</small>
+                            </p>
+                                <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
+                            </p>
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="card-footer text-center">
