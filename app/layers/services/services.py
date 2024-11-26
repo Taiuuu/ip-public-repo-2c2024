@@ -11,19 +11,30 @@ from .services import transport
 
 def getAllImages(input=None):
     # obtiene un listado de datos "crudos" desde la API, usando a transport.py.
-    json_collection = getAllImages(input) #Llama a la función getallimages que se encuentra en transport.py
+    json_collection = transport_getAllImages(input) #Llama a la función getallimages que se encuentra en transport.py
+    if not json_collection:  # Verifica si la colección está vacía
+        return []
 
-    # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
+       # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
     images = []
     for raw_objects in json_collection:
         card = fromRequestIntoCard(raw_objects)
-        images.append(card)
+        if input:
+            if input.lower() in card.name.lower():
+                images.append(card)
+            elif input.lower() in card.name.lower():
+                images.append(card)
+        else:
+            images.append(card)
+
     return images
 
 # añadir favoritos (usado desde el template 'home.html')
 def saveFavourite(request):
-    fav = fromTemplateIntoCard(request)# transformamos un request del template en una Card.
-    fav.user = get_user(request) # le asignamos el usuario correspondiente.
+    if not request.user.is_authenticated:
+        return None
+    fav = fromRequestIntoCard(request.POST) # transformamos un request del template en una Card.
+    fav.user = request.user # le asignamos el usuario correspondiente.
 
     return repositories.saveFavourite(fav) # lo guardamos en la base.
 
@@ -34,7 +45,7 @@ def getAllFavourites(request):
     else:
         user = get_user(request)
 
-        favourite_list = repositories.getAllFavourites(user) # buscamos desde el repositories.py TODOS los favoritos del usuario (variable 'user').
+        favourite_list = getAllFavourites(user) # buscamos desde el repositories.py TODOS los favoritos del usuario (variable 'user').
         mapped_favourites = []
 
         for favourite in favourite_list:
