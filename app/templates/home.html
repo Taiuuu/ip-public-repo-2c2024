@@ -32,7 +32,7 @@
         </form>
     </div>
 
-     <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         {% if images|length == 0 %}
         <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
         {% else %} {% for img in images %}
@@ -44,7 +44,15 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card-body">
+                            {% if img.status == 'Alive' %}
+                            <span class="border border-success" style="display: block; width: 100%; height: 10px;"></span>
+                            {% elif img.status == 'Dead' %}
+                            <span class="border border-danger" style="display: block; width: 100%; height: 10px;"></span>
+                            {% else %}
+                            <span class="border border-warning" style="display: block; width: 100%; height: 10px;"></span>
+                            {% endif %}
+
+                            <div class="card-body">
                             <h3 class="card-title">{{ img.name }}</h3>
                             <p class="card-text">
                                 <strong>
@@ -55,10 +63,11 @@
                                 </strong>
                             </p>
                             <p class="card-text">
-                                <small>class="text-body-secondary">Última ubicación: {{ img.last_location }}</small>
+                                <small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small>
                             </p>
-                                <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
-                            </p>
+                            <p class="card-text">
+                                <small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small>
+                            </p>                            
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="card-footer text-center">
