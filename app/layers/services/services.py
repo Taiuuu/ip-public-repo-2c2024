@@ -7,11 +7,11 @@ from ..utilities.translator import fromTemplateIntoCard
 from ..utilities.translator import fromRepositoryIntoCard
 from django.contrib.auth import get_user
 from ..utilities import card
-from .services import transport 
+from ..transport import transport 
 
 def getAllImages(input=None):
     # obtiene un listado de datos "crudos" desde la API, usando a transport.py.
-    json_collection = transport_getAllImages(input) #Llama a la función getallimages que se encuentra en transport.py
+    json_collection = transport.getAllImages(input) #Llama a la función getallimages que se encuentra en transport.py
     if not json_collection:  # Verifica si la colección está vacía
         return []
 
