@@ -12,11 +12,7 @@ def index_page(request):
 def home(request):
     images = services.getAllImages()
     #Aca voy a agregar el condicional:
-    if request.user.is_authenticated:
-        favourite_list = services.getAllFavourites(request)
-    else:
-        favourite_list = [] 
-
+    favourite_list = [] 
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
 def search(request):
