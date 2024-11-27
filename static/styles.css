@@ -140,17 +140,3 @@ table.table td i {
     margin-top: 6px;
     font-size: 95%;
 }
-
-
-/* Bordes de estados */
-.table td.vivo {
-    border: 2px solid green; /* Borde verde para "vivo" */
-}
-
-.table td.muerto {
-    border: 2px solid red; /* Borde rojo para "muerto" */
-}
-
-.table td.desconocido {
-    border: 2px solid gray; /* Borde gris para "desconocido" */
-}
