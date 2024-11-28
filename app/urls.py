@@ -13,8 +13,9 @@ urlpatterns = [
     path('favourites/add/', views.saveFavourite, name='agregar-favorito'),
     path('favourites/delete/', views.deleteFavourite, name='borrar-favorito'),
 
-    path('exit/', views.index_page, name='exit'),
+    path('exit/', views.exit, name='exit'),
 
     #iniciar sesion
+    path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

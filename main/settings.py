@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'bootstrap5',
+
 ]
 
 MIDDLEWARE = [
@@ -118,5 +119,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # VARIABLES QUE INTEGRAN LOS REDIRECTS DE AUTH
-LOGIN_REDIRECT_URL = 'index-page'
-LOGOUT_REDIRECT_URL = 'index-page'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
