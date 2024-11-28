@@ -18,4 +18,7 @@ urlpatterns = [
     #iniciar sesion
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+
+    #register
+    path('register/', views.register, name='register'),
 ]

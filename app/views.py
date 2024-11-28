@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from app. import 
 
 def index_page(request):
     return render(request, 'index.html')
@@ -50,3 +51,9 @@ def exit(request):
     logout(request)
     return redirect('home')
     
+#FORMULARIO DE REGISTRO
+def register(request):
+    data={
+        'form': CustomUserCreationForm()
+    }
+    return render(request, 'registration/register.html', data)
