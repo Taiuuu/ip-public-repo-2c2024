@@ -1,6 +1,6 @@
-{% extends 'header.html' %} {% block content %}
+{% extends 'header.html' %} {% block content %}{% load crispy_forms_tags %}
 <div class="login-form" style="text-align: center;">
-    <form action="" method="POST" style="display: inline-block;">
+    <form action="{% url 'login' %}" method="POST" style="display: inline-block;">
         {% csrf_token %}
         <h2 class="text-center">Inicio de sesión</h2>
         <div class="form-group" style="margin-bottom: 5%;">
@@ -10,7 +10,9 @@
             <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required="required">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+            <button type="submit" class="btn btn-primary ">Ingresar</button>
+            <a type="submit" href="{% url 'register' %}">Registrarse</a>
+        </div>
         </div>
     </form>
 </div>

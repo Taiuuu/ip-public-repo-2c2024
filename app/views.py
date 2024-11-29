@@ -4,6 +4,8 @@ from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from app.forms import CustomUserCreationFrom
+from django.contrib.auth import authenticate, login
 
 def index_page(request):
     return render(request, 'index.html')
@@ -12,11 +14,7 @@ def index_page(request):
 def home(request):
     images = services.getAllImages()
     #Aca voy a agregar el condicional:
-    if request.user.is_authenticated:
-        favourite_list = services.getAllFavourites(request)
-    else:
-        favourite_list = [] 
-
+    favourite_list = [] 
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
 def search(request):
@@ -51,4 +49,21 @@ def deleteFavourite(request):
 
 @login_required
 def exit(request):
-    pass
+    logout(request)
+    return redirect('home')
+    
+#FORMULARIO DE REGISTRO
+def register(request):
+    data={
+        'form': CustomUserCreationFrom()
+    }
+    if request.method == 'POST':
+        user_creation_form= CustomUserCreationFrom(data=request.POST)
+
+        if user_creation_form.is_valid():
+            user_creation_form.save()
+
+            user= authenticate(username=user_creation_form.cleaned_data['username'], password=user_creation_form.cleaned_data['password1'])
+            login(request, user)
+            return redirect('home')
+    return render(request, 'registration/register.html', data)
