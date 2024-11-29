@@ -1,73 +1,58 @@
-{% extends 'header.html' %} {% block content %}
+{% extends 'header.html' %}
+{% block content %}
 <main>
-    <h1 class="text-center">Buscador Rick & Morty</h1>
+    <div class="container py-5">
+        <h1 class="text-center display-4 mb-4">Buscador Rick & Morty</h1>
 
-    <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
-        <!-- Selector de página -->
-        <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link">⬅️</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">➡️</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+        <!-- Buscador -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form class="d-flex" action="{% url 'buscar' %}" method="POST">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar personajes..." aria-label="Buscar">
+                    <button class="btn btn-success" type="submit"><i class="bi bi-search"></i> Buscar</button>
+                </form>
+            </div>
+        </div>
 
-    <div class="d-flex justify-content-center" style="margin-bottom: 1%">
-        <!-- Buscador del sitio -->
-        <form class="d-flex" action="{% url 'buscar' %}" method="POST">
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" name="query" placeholder="Escribí una palabra" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
-    </div>
+        <!-- Paginación -->
+        <div class="d-flex justify-content-center mb-4">
+            <nav aria-label="Navegación de página">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% if images|length == 0 %}
-        <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
-        {% else %} {% for img in images %}
-        <div class="col">
-                <div class="card mb-3 ms-5
-                {% if img.status == 'Alive' %}border border-success
-                {% elif img.status == 'Dead' %}border border-danger
-                {% else %}border border-warning
-                {% endif %}"
-                
-            >
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="{{ img.url }}" class="card-img-top" alt="imagen">
-                    </div>
-
-                    <div class="col-md-8">
-
-
-                            <div class="card-body">
-                            <h3 class="card-title">{{ img.name }}</h3>
-                            <p class="card-text">
-                                <strong>
-                                        {% if img.status == 'Alive' %} 🟢 Vivo 
-                                        {% elif img.status == 'Dead' %} 🔴 Muerto
-                                        {% else %} 🟠 Desconocido 
-                                        {% endif %}
-                                </strong>
+        <!-- Resultados -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% if images|length == 0 %}
+                <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
+            {% else %}
+                {% for img in images %}
+                <div class="col">
+                    <div class="card shadow h-100 {% if img.status == 'Alive' %}border-success{% elif img.status == 'Dead' %}border-danger{% else %}border-warning{% endif %}">
+                        <img src="{{ img.url }}" class="card-img-top" alt="Imagen de {{ img.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ img.name }}</h5>
+                            <p>
+                                <span class="badge {% if img.status == 'Alive' %}bg-success{% elif img.status == 'Dead' %}bg-danger{% else %}bg-warning{% endif %}">
+                                    {% if img.status == 'Alive' %}Vivo{% elif img.status == 'Dead' %}Muerto{% else %}Desconocido{% endif %}
+                                </span>
                             </p>
-                            <p class="card-text">
-                                <small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small>
-                            </p>
-                            <p class="card-text">
-                                <small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small>
-                            </p>                            
+                            <p class="card-text">Última ubicación: {{ img.last_location }}</p>
+                            <p class="card-text">Episodio inicial: {{ img.first_seen }}</p>
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="card-footer text-center">
@@ -77,17 +62,20 @@
                                 <input type="hidden" name="url" value="{{ img.url }}">
                                 <input type="hidden" name="status" value="{{ img.status }}">
                                 <input type="hidden" name="last_location" value="{{ img.last_location }}">
-                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}"> {% if img in favourite_list %}
-                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button> {% else %}
-                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button> {% endif %}
+                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}">
+                                {% if img in favourite_list %}
+                                <button type="submit" class="btn btn-primary btn-sm" disabled>✔️ Ya está en favoritos</button>
+                                {% else %}
+                                <button type="submit" class="btn btn-primary btn-sm">❤️ Añadir a favoritos</button>
+                                {% endif %}
                             </form>
                         </div>
                         {% endif %}
                     </div>
                 </div>
-            </div>
+                {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %} {% endif %}
     </div>
 </main>
 {% endblock %}

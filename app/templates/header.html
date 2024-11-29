@@ -5,25 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rick & Morty App - IP 2C2024</title>
-    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load static %}
+    {% load bootstrap5 %} 
+    {% bootstrap_css %} 
+    {% bootstrap_javascript %}
+    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body style="font-family: 'Roboto', sans-serif; background-color: #f8f9fa;">
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Proyecto TP</a>
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'img/rym.jpg' %}" alt="Rick & Morty" height="40">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'index-page' %}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><strong>Galería</strong></a>
+                        <a class="nav-link" href="{% url 'home' %}"><strong>Galería</strong></a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
@@ -36,10 +42,18 @@
                         <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a> {% endif %}
                     </li>
                 </ul>
-
-
             </div>
         </div>
     </nav>
 
-    {% block content %} {% endblock %} {% include "footer.html" %}
+    <!-- Contenido principal -->
+    <main class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include "footer.html" %}
+</body>
+
+</html>

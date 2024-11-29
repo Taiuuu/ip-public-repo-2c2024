@@ -1,9 +1,40 @@
-{% extends 'header.html' %} {% block content %} {% if request.user.is_authenticated %}
-<h2 class="text-center">Bienvenido {{ user.username | upper }}!</h2>
-{% else %}
-<h2 class="text-center">Bienvenido!</h2>
-{% endif %}
-<p class="text-center">
-    Mirá las imágenes desde <a href="{% url 'home' %}">este link.</a>
-</p>
+{% extends 'header.html' %}
+{% block content %}
+<style>
+    /* Estilo para el fondo */
+    body {
+       
+        color: white;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .content-box {
+        background: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    a {
+        color: #01e752;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="content-box text-center">
+        {% if request.user.is_authenticated %}
+        <h2 class="display-5">¡Bienvenido, {{ user.username | upper }}!</h2>
+        {% else %}
+        <h2 class="display-5">¡Bienvenido!</h2>
+        {% endif %}
+        <p class="mt-4">
+            Mirá las imágenes desde <a href="{% url 'home' %}">este link</a>.
+        </p>
+    </div>
+</div>
 {% endblock %}
